@@ -48,6 +48,10 @@ function TaskForm() {
     });
     window.location.href = '/scheduler'
   }
+  const twoCalls = e => {
+    this.saveTask()
+    this.handleSubmit(e)
+  }
 
   useEffect(() => {
     if (task) {
@@ -86,6 +90,7 @@ function TaskForm() {
     closeModal();
     setError(false);
   }
+  
 
   return (
     <Modal
@@ -162,7 +167,7 @@ function TaskForm() {
           ) : null}
           <button
             className="button button-green"
-            onClick={_saveTask}
+            onClick={twoCalls}
           >
             Save
           </button>
