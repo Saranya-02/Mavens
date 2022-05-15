@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-restricted-globals */
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "react-modal";
@@ -30,32 +31,28 @@ function TaskForm() {
 
   const { date, task, setTask, saveTask, setDate, deleteTask } =  useContext(CalendarContext);
   const [status, setstatus] = useState();
-  const [name, setName] = useState();
   const [color, setColor] = useState("#f44336");
   const [user_id, setuser_id] = useState();
   const [doctor_id, setdoctor_id] = useState();
   const [speciality, setspeciality] = useState();
   const [error, setError] = useState(false);
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const token = await table({
+  const handleSubmit = () => {
+    
+    console.warn("done");
+    table({
       user_id,
       doctor_id,
       status,
       date,
       speciality
     });
-    window.location.href = '/scheduler'
-  }
-  const twoCalls = e => {
-    this.saveTask()
-    this.handleSubmit(e)
+    window.location.href = '/home2'
   }
 
   useEffect(() => {
     if (task) {
-      setName(task.name || "");
+      setstatus(task.status || "");
       setColor(task.color || "#f44336");
     }
   }, [task]);
@@ -67,7 +64,7 @@ function TaskForm() {
 
   const _saveTask = () => {
  
-    if(name.trim().length < 1) {
+    if(status.trim().length < 1) {
         setError(true);
         return;
     }
@@ -76,7 +73,7 @@ function TaskForm() {
     saveTask({
       ...task,
       date: date,
-      name: name,
+      status: status,
       color: color,
     });
     setDate(date);
@@ -90,7 +87,6 @@ function TaskForm() {
     closeModal();
     setError(false);
   }
-  
 
   return (
     <Modal
@@ -99,15 +95,9 @@ function TaskForm() {
       style={customStyles}
       ariaHideApp={false}
       contentLabel="Task Form"
+
     >
       <div className="task-form">
-        
-      {/* <label>Serial No.</label>
-        <input
-          name="sno"
-          type="text"
-          placeholder="sno"
-        /> */}
        
         <label>Doctor code</label>
         <input
@@ -128,9 +118,9 @@ function TaskForm() {
          <label>Status</label>
         <input
           id ="status"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="status"
+          value={status}
+          onChange={e => setstatus(e.target.value)}
           type="text"
           placeholder="Status"
         />
@@ -167,7 +157,8 @@ function TaskForm() {
           ) : null}
           <button
             className="button button-green"
-            onClick={twoCalls}
+            // onClick="_saveTask(); handleSubmit(e);"
+            onClick={() => { _saveTask(); handleSubmit();}}
           >
             Save
           </button>
