@@ -69,6 +69,7 @@ export default function SignUp() {
       area,
       state
     });
+    alert("The data has been submitted");
     window.location.href = '/'
   }
 
